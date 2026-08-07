@@ -1,10 +1,15 @@
 #include "Process.h"
+#include "Scheduler.h"
+#include "Checker.h"
 #include <iostream>
+
 
 
 int main()
 {
-	
+	Scheduler scheduler;
+	Checker checker;
+
 	int numProcesses;
 
     std::cout << "Welcome to Process Scheduler \n" << std::endl;
@@ -13,19 +18,26 @@ int main()
 	for (int i = 0; i < numProcesses; i++)
 	{
 		int pid, priority;
-		std::cout << "Please enter PID , Then Priority 1 - 5: " << std::endl;
-
-		std::cin >> pid >> priority;
-		Process process(pid, priority);
-		std::cout << "Process created with PID: " << process.getPid() << " and Priority: " << process.getPriority() << std::endl;
-		if (process.getState() == ProcessState::Ready)
+		while (true)
 		{
-			std::cout << "Process is in Ready state." << std::endl;
+			std::cout << "Please enter PID , Then Priority 1 - 5: " << std::endl;
+			std::cin >> pid >> priority;
+			
+			if (!checker.validPriority(priority))
+			{
+				std::cout << "Invalid priority. Please enter a value between 1 and 5." << std::endl;
+				continue;
+			}
+			break;
 		}
-		else
+		Process process(pid, priority);
+		if (!scheduler.addProcess(process))
 		{
-			std::cout << "Process is not in Ready state. current state: " << process.getStateString() << std::endl;
+			std::cout << "PID already exists. Please enter a unique PID." << std::endl;
+			i--; // Decrement i to repeat this iteration
+			continue;
 		}
 	}
+	scheduler.displayProcesses();
 	return 0;
 }

@@ -9,5 +9,12 @@ private:
 	std::vector<Process> processes;
 
 public:
-	void addProcess(Process process);
+	bool addProcess(const Process& process);
+
+	void displayProcesses() const;
+
+	bool pidExists(int pid) const;
+
 };
+
+	
