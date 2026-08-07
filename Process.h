@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class ProcessState { Ready, Running, Waiting, Terminated, Finished };
 
@@ -18,6 +19,8 @@ public:
     int getPriority() const;
 
     ProcessState getState() const;
+
+    std::string getStateString() const;
 
     void setState(ProcessState newState);
 };

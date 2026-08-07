@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ProcessScheduler.vcxproj" />
+  <Project Path="ProcessScheduler.vcxproj" Id="2586471b-9ef9-4fc6-8656-9c2148c5879b" />
 </Solution>
