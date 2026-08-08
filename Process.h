@@ -8,15 +8,17 @@ class Process
 private:
     int pid;
     int priority;
+	int arrivalOrder;
 
     ProcessState state;
 
 public:
 
-    Process(int pid, int priority);
+    Process(int pid, int priority, int arrivalOrder);
 
     int getPid() const;
     int getPriority() const;
+    int getArrivalOrder() const;
 
     ProcessState getState() const;
 

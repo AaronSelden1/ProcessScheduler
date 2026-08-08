@@ -142,11 +142,13 @@
     <ClCompile Include="Checker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ProcessComparator.cpp" />
     <ClCompile Include="Scheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Checker.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessComparator.h" />
     <ClInclude Include="Scheduler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

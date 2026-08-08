@@ -1,7 +1,7 @@
 #include "Process.h"
 
-Process::Process(int pid, int priority)
-    : pid(pid), priority(priority), state(ProcessState::Ready)
+Process::Process(int pid, int priority, int arrivalOrder)
+    : pid(pid), priority(priority), arrivalOrder(arrivalOrder), state(ProcessState::Ready)
 {
 }
 
@@ -13,6 +13,11 @@ int Process::getPid() const
 int Process::getPriority() const
 {
     return priority;
+}
+
+int Process::getArrivalOrder() const
+{
+    return arrivalOrder;
 }
 
 ProcessState Process::getState() const
