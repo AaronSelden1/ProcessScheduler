@@ -39,5 +39,6 @@ int main()
 	}
 	scheduler.displayProcesses();
 	scheduler.displayReadyQueue();
+	scheduler.runAllProcesses();
 	return 0;
 }
