@@ -14,6 +14,8 @@ private:
 	std::vector<std::unique_ptr<Process>> processes; // Store processes as unique pointers to manage memory automatically
 	std::priority_queue<Process*, std::vector<Process*>, ProcessComparator> readyQueue; // Priority queue for ready processes
 	
+	int generateBurstTime(); // Function to generate a random burst time for a process
+
 	int nextArrival = 0; // To keep track of the arrival order of processes
 
 public:
@@ -29,6 +31,4 @@ public:
 
 	void runAllProcesses();
 
-};
-
-	
+};	

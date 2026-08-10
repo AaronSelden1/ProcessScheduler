@@ -11,7 +11,6 @@ int main()
 	Checker checker;
 
 	int numProcesses;
-	int nextArrival = 0;
     std::cout << "Welcome to Process Scheduler \n" << std::endl;
 	std::cout << "How many processes do you want to create? ";
 	std::cin >> numProcesses;
@@ -29,7 +28,7 @@ int main()
 			}
 			break;
 		}
-		Process process(pid, priority, nextArrival);
+
 		if (!scheduler.addProcess(pid, priority))
 		{
 			std::cout << "PID already exists. Please enter a unique PID." << std::endl;
@@ -37,7 +36,6 @@ int main()
 			continue;
 		}
 	}
-	scheduler.displayProcesses();
 	scheduler.displayReadyQueue();
 	scheduler.runAllProcesses();
 	return 0;

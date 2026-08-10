@@ -9,16 +9,18 @@ private:
     int pid;
     int priority;
 	int arrivalOrder;
+    int burstTime;
 
     ProcessState state;
 
 public:
 
-    Process(int pid, int priority, int arrivalOrder);
+    Process(int pid, int priority, int arrivalOrder, int burstTime);
 
     int getPid() const;
     int getPriority() const;
     int getArrivalOrder() const;
+    int getBurstTime() const;
 
     ProcessState getState() const;
 

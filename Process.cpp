@@ -1,13 +1,18 @@
 #include "Process.h"
 
-Process::Process(int pid, int priority, int arrivalOrder)
-    : pid(pid), priority(priority), arrivalOrder(arrivalOrder), state(ProcessState::Ready)
+Process::Process(int pid, int priority, int arrivalOrder, int burstTime)
+    : pid(pid), priority(priority), arrivalOrder(arrivalOrder), burstTime(burstTime), state(ProcessState::Ready)
 {
 }
 
 int Process::getPid() const
 {
     return pid;
+}
+
+int Process::getBurstTime() const
+{
+    return burstTime;
 }
 
 int Process::getPriority() const

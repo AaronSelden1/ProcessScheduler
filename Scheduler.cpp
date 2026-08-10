@@ -1,7 +1,7 @@
 #include "Scheduler.h"
 #include <iostream>
-#include "Process.h"
-
+#include <chrono>
+#include <thread>
 
  bool Scheduler::addProcess(int pid, int priority)
 {
@@ -9,12 +9,12 @@
 	 {
 		 return false; // PID already exists, cannot add process
 	 }
-	 auto process = std::make_unique<Process>(pid, priority, nextArrival++);
-	 
-	 Process* processPter = process.get(); // Get the raw pointer to the process
+	 int burstTime = generateBurstTime(); // Generate a random burst time for the process
+	 auto process = std::make_unique<Process>(pid, priority, nextArrival++, burstTime);
+	 Process* processPtr = process.get(); // Get the raw pointer to the process
 
 	 processes.push_back(std::move(process)); 
-	 readyQueue.push(processPter); // Add the process to the ready queue)
+	 readyQueue.push(processPtr); // Add the process to the ready queue)
 	 return true; // Process added successfully
 }
 
@@ -22,7 +22,11 @@ void Scheduler::displayProcesses() const
 {
 	for (const auto& process : processes)
 	{
-		std::cout << "PID: " << process -> getPid() << ", Priority: " << process->getPriority() << ", State: " << process->getStateString() <<  ", Arrival Order: " << process->getArrivalOrder() << std::endl;
+		std::cout << "PID: " << process -> getPid() 
+		<< ", Priority: " << process->getPriority() 
+		<< ", State: " << process->getStateString() 
+		<<  ", Arrival Order: " << process->getArrivalOrder() 
+		<< ", Burst Time: " << process->getBurstTime() << std::endl;
 	}
 }
 bool Scheduler::pidExists(int pid) const
@@ -44,7 +48,7 @@ void Scheduler::displayReadyQueue()
 	{
 		Process* process = queueCopy.top();
 
-		std::cout << "PID: " << process->getPid() << ", Priority: " << process->getPriority() << ", State: " << process->getStateString() << ", Arrival Order: " << process->getArrivalOrder() << std::endl;
+		std::cout << "PID: " << process->getPid() << ", Priority: " << process->getPriority() << ", State: " << process->getStateString() << ", Arrival Order: " << process->getArrivalOrder() << ", Burst Time: " << process->getBurstTime() << std::endl;
 
 		queueCopy.pop();
 	}
@@ -58,15 +62,11 @@ void Scheduler::runNextProcess()
 
 		Process* process = readyQueue.top();
 
-
-
-		process->setState(ProcessState::Waiting);
-
-		std::cout << "Running process PID: " << process->getPid() << std::endl;
+		std::cout << "Running process PID: " << process->getPid() << " for " << process->getBurstTime() * 100 << "ms" << std::endl;
 
 		process->setState(ProcessState::Running);
 
-
+		std::this_thread::sleep_for(std::chrono::milliseconds(process->getBurstTime() * 100)); // Simulate burst time in milliseconds
 
 		process->setState(ProcessState::Finished);
 
@@ -78,7 +78,7 @@ void Scheduler::runNextProcess()
 
 			std::cout << "Process PID: " << process->getPid() << " has finished execution." << std::endl;
 
-			displayReadyQueue();
+			// displayReadyQueue();
 
 			readyQueue.pop(); // Remove the process from the ready queue
 
@@ -113,4 +113,8 @@ void Scheduler::runAllProcesses()
 		runNextProcess();
 	}
 	std::cout << "All processes have been executed." << std::endl;
+}
+int Scheduler::generateBurstTime()
+{
+	return rand() % 10 + 1; // Generate a random burst time between 1 and 10
 }
