@@ -13,7 +13,7 @@ class Scheduler
 private:
 	std::vector<std::unique_ptr<Process>> processes; // Store processes as unique pointers to manage memory automatically
 	std::priority_queue<Process*, std::vector<Process*>, ProcessComparator> readyQueue; // Priority queue for ready processes
-	
+	std::queue<Process* > fifoQueue; // FIFO queue for processes
 	int generateBurstTime(); // Function to generate a random burst time for a process
 
 	int nextArrival = 0; // To keep track of the arrival order of processes
@@ -30,5 +30,8 @@ public:
 	void runNextProcess();
 
 	void runAllProcesses();
+	
+	void runFifoProcesses(); 
 
+	void displayFifoQueue();
 };	

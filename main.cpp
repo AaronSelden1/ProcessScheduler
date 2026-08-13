@@ -36,7 +36,25 @@ int main()
 			continue;
 		}
 	}
-	scheduler.displayReadyQueue();
-	scheduler.runAllProcesses();
+	std::cout << "Select an option for process running, 1. priority Queue, 2. FIFO, 3. Round Robin  4. Exit: " << std::endl;
+	int option;
+	std::cin >> option;
+	switch (option)
+	{
+	case 1:
+		std::cout << "Running Prioity Queue Scheduling..." << std::endl;
+		scheduler.runAllProcesses();
+		break;
+	case 2:
+		std::cout << "Running FIFO Scheduling..." << std::endl;
+		scheduler.runFifoProcesses();
+		break;
+	case 3:
+		std::cout << "Round Robin Scheduling is not implemented yet." << std::endl;
+		break;
+	case 4:
+		std::cout << "Exiting..." << std::endl;
+		break;
+	}
 	return 0;
 }
