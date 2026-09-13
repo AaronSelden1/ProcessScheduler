@@ -14,6 +14,7 @@
 	 Process* processPtr = process.get(); // Get the raw pointer to the process
 	 fifoQueue.push(processPtr);
 	 processes.push_back(std::move(process)); 
+	 //roundRobinQueue.push(processPtr);
 	 readyQueue.push(processPtr); // Add the process to the ready queue)
 	 return true; // Process added successfully
 }
@@ -116,7 +117,7 @@ void Scheduler::runAllProcesses()
 }
 int Scheduler::generateBurstTime()
 {
-	return rand() % 10 + 1; // Generate a random burst time between 1 and 10
+	return  rand() % 15 + 1; // Generate a random burst time between 1 and 10
 }
 void Scheduler::runFifoProcesses()
 {
@@ -147,5 +148,77 @@ void Scheduler::displayFifoQueue()
 		Process* process = queueCopy.front();
 		std::cout << "PID: " << process->getPid() << ", Priority: " << process->getPriority() << ", State: " << process->getStateString() << ", Arrival Order: " << process->getArrivalOrder() << ", Burst Time: " << process->getBurstTime() << std::endl;
 		queueCopy.pop();
+	}
+}
+
+void Scheduler::populateRoundRobin()
+{
+	while (!readyQueue.empty())
+	{
+		Process* process = readyQueue.top();
+		roundRobinQueue.push_back(process);
+		readyQueue.pop();
+	}
+}
+void Scheduler::runRoundRobin()
+{
+	Process* tempProcess;
+	while (!roundRobinQueue.empty() && roundRobinQueue.front()->getState() == ProcessState::Ready)
+	{
+		Process* process = roundRobinQueue.front();
+		if (process->getBurstTime() >= 3)
+		{
+			std::cout << "Running process PID: " << process->getPid() << " for 300 ms" << std::endl;
+
+			process->setState(ProcessState::Running);
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+			process->subtractBurstTime();
+
+			if (process->getBurstTime() <= 0)
+			{
+				std::cout << "Process has finished execution." << std::endl;
+				roundRobinQueue.pop_front();
+			}
+			else 
+			{
+				std::cout << "Process has " << process->getBurstTime() * 100 << "ms remaining. moving to back of queue." << std::endl;
+				process->setState(ProcessState::Ready);
+				tempProcess = process;
+
+				roundRobinQueue.push_back(tempProcess);
+
+				roundRobinQueue.pop_front();
+			}
+		}
+		else
+		{
+			std::cout << "Running process PID: " << process->getPid() << " for " << process->getBurstTime() * 100 << "ms" << std::endl;
+
+			process->setState(ProcessState::Running);
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(process->getBurstTime() * 100));
+
+			process->setState(ProcessState::Finished);
+
+			std::cout << "Process has finished execution." << std::endl;
+
+			roundRobinQueue.pop_front();
+		}
+	}
+		std::cout << "All processes have been executed, Queue empty." << std::endl;
+}
+
+void Scheduler::displayRoundRobin()
+{
+	auto queueCopy = roundRobinQueue;
+	
+	while (!queueCopy.empty())
+	{
+		Process* process = queueCopy.front();
+		std::cout << "PID: " << process->getPid() << ", Priority: " << process->getPriority() << ", State: " << process->getStateString() << ", Arrival Order: " << process->getArrivalOrder() << ", Burst Time: " << process->getBurstTime() << std::endl;
+
+		queueCopy.pop_front();
 	}
 }

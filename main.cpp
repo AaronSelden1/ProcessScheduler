@@ -50,7 +50,9 @@ int main()
 		scheduler.runFifoProcesses();
 		break;
 	case 3:
-		std::cout << "Round Robin Scheduling is not implemented yet." << std::endl;
+		std::cout << "displaying round robin queue" << std::endl;
+		scheduler.populateRoundRobin();
+		scheduler.runRoundRobin();
 		break;
 	case 4:
 		std::cout << "Exiting..." << std::endl;

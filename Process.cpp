@@ -15,6 +15,11 @@ int Process::getBurstTime() const
     return burstTime;
 }
 
+void Process::subtractBurstTime()
+{
+    this->burstTime = burstTime - 3;
+}
+
 int Process::getPriority() const
 {
     return priority;

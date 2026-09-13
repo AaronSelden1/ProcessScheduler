@@ -21,7 +21,7 @@ public:
     int getPriority() const;
     int getArrivalOrder() const;
     int getBurstTime() const;
-
+    void subtractBurstTime();
     ProcessState getState() const;
 
     std::string getStateString() const;
