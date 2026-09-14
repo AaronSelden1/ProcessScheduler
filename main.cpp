@@ -36,7 +36,7 @@ int main()
 			continue;
 		}
 	}
-	std::cout << "Select an option for process running, 1. priority Queue, 2. FIFO, 3. Round Robin  4. Exit: " << std::endl;
+	std::cout << "Select an option for process running, 1. priority Queue, 2. FIFO, 3. Priority Round Robin  4. Fifo Round Robin 5. Exit  " << std::endl;
 	int option;
 	std::cin >> option;
 	switch (option)
@@ -50,11 +50,18 @@ int main()
 		scheduler.runFifoProcesses();
 		break;
 	case 3:
-		std::cout << "displaying round robin queue" << std::endl;
-		scheduler.populateRoundRobin();
-		scheduler.runRoundRobin();
+		std::cout << "Running Prioity Round Robin Scheduling..." << std::endl;
+		scheduler.populatePriorityRoundRobin();
+		scheduler.runPriorityRoundRobin();
 		break;
+	
 	case 4:
+		std::cout << "Running FIFO Round Robin Scheduling..." << std::endl;
+		scheduler.populateFIFORoundRobin();
+		scheduler.runPriorityRoundRobin();
+		break;
+
+	case 5:
 		std::cout << "Exiting..." << std::endl;
 		break;
 	}

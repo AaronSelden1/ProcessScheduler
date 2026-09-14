@@ -30,6 +30,7 @@ void Scheduler::displayProcesses() const
 		<< ", Burst Time: " << process->getBurstTime() << std::endl;
 	}
 }
+
 bool Scheduler::pidExists(int pid) const
 {
 	for(const auto& p : processes)
@@ -55,7 +56,6 @@ void Scheduler::displayReadyQueue()
 	}
 }
 void Scheduler::runNextProcess()
-
 {
 	if (!readyQueue.empty() && readyQueue.top()->getState() == ProcessState::Ready)
 
@@ -71,10 +71,7 @@ void Scheduler::runNextProcess()
 
 		process->setState(ProcessState::Finished);
 
-		
-
 		if (process->getState() == ProcessState::Finished)
-
 		{
 
 			std::cout << "Process PID: " << process->getPid() << " has finished execution." << std::endl;
@@ -86,15 +83,12 @@ void Scheduler::runNextProcess()
 		}
 
 		else
-
 		{
-
 			std::cout << "Process PID: " << process->getPid() << " Has encountered an error. Terminating..." << std::endl;
 
 			process->setState(ProcessState::Terminated);
 
 			return;
-
 		}
 
 	}
@@ -151,7 +145,7 @@ void Scheduler::displayFifoQueue()
 	}
 }
 
-void Scheduler::populateRoundRobin()
+void Scheduler::populatePriorityRoundRobin()
 {
 	while (!readyQueue.empty())
 	{
@@ -160,7 +154,18 @@ void Scheduler::populateRoundRobin()
 		readyQueue.pop();
 	}
 }
-void Scheduler::runRoundRobin()
+
+void Scheduler::populateFIFORoundRobin()
+{
+	while (!fifoQueue.empty())
+	{
+		Process* process = fifoQueue.front();
+		roundRobinQueue.push_back(process);
+		fifoQueue.pop();
+	}
+}
+
+void Scheduler::runPriorityRoundRobin()
 {
 	Process* tempProcess;
 	while (!roundRobinQueue.empty() && roundRobinQueue.front()->getState() == ProcessState::Ready)

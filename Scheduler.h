@@ -35,9 +35,13 @@ public:
 
 	void displayFifoQueue();
 
-	void runRoundRobin();
+	void runFIFORoundRobin();
+
+	void runPriorityRoundRobin();
 
 	void displayRoundRobin();
 
-	void populateRoundRobin();
+	void populatePriorityRoundRobin();
+
+	void populateFIFORoundRobin();
 };	
